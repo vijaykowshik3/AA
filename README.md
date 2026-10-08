@@ -6,21 +6,21 @@ Bengaluru-based architecture & interiors, editorial typography, bronze/bone pale
 
 ## What's in it
 
-- **Preloader** — serif wordmark rises, counter runs to 100, curtain lifts into the hero.
-- **Hero** — custom WebGL "liquid stone" shader (raw WebGL, no library): domain-warped noise lights
-  the hero image, reacts to the pointer and deepens/fades as you scroll.
-- **Smooth scroll** — Lenis wired into GSAP's ticker; ScrollTrigger drives every reveal.
-- **Manifesto** — word-by-word opacity scrubbed by scroll position.
-- **Selected work** — pinned horizontal gallery on desktop (progress bar, per-card parallax,
-  hover zoom, "View" cursor label); falls back to a vertical stack on mobile.
-- **Featured project** — full-bleed parallax image with line reveals.
-- **Disciplines** — list rows that fill on hover with a floating image that follows the cursor.
-- **Studio** — sticky portrait, counters that count up on entry.
-- **Press** — velocity-aware marquee + article grid.
-- **Contact / footer** — oversized CTA, giant wordmark that rises in.
-- **Project overlay** — lightweight detail view (deep-linkable via `#project-<id>`), prev/next.
-- **Fullscreen menu**, **custom cursor**, **magnetic buttons**, live Bengaluru clock.
-- Honors `prefers-reduced-motion`; cursor/magnetic effects are disabled on touch devices.
+The whole site is **one continuous journey**: a Three.js world (floating stone slabs, dust, a warm light
+at the far end) that the camera travels through as you scroll. Every section is a layer whose state is a
+pure function of scroll position, so scrolling up plays everything in reverse.
+
+- **Preloader** — serif wordmark rises, counter runs to 100, curtain lifts into the world.
+- **Hero** — the wordmark scales and blurs away as you dive in.
+- **Philosophy** — words light up one by one with scroll.
+- **Selected work** — scrolling moves through six projects; the active project's image floats in 3D
+  ahead of the camera while neighbours wait at the sides. Counter, project list and "Open project".
+- **Project view** — opens in place and turns the scroll **horizontal** (wheel, drag, touch, arrow keys):
+  cover → statement & facts → gallery images with parallax → material palette → next project.
+- **Studio**, **Disciplines** (hover image follows the cursor), **Press** (velocity-aware marquee),
+  **Contact** (email, hours, studio, social, careers).
+- Journey rail on the right (click to jump), fullscreen menu, custom cursor, magnetic buttons,
+  live Bengaluru clock, deep links (`#project-<id>`), `prefers-reduced-motion` support.
 
 ## Run it
 
@@ -40,8 +40,8 @@ testing. To go live, replace the files in `public/img/` keeping the same names:
 
 | File | Used for |
 |------|----------|
-| `hero.jpg` | WebGL hero (any striking interior/material shot works; 2000px+ wide) |
-| `pregame.jpg` | Pregame — work card, featured section, menu image, overlay |
+| `hero.jpg` | Texture on the floating slabs in the 3D world |
+| `pregame.jpg` | Pregame — work carousel plane, project view cover |
 | `lucifers-lair.jpg` | Lucifer's Lair |
 | `knossos.jpg` | Knossos residence, Dubai |
 | `school-lobby.jpg` | Primary school lobby |
@@ -49,7 +49,8 @@ testing. To go live, replace the files in `public/img/` keeping the same names:
 | `residence.jpg` | Ultra-luxury residence |
 | `studio.jpg` | Studio / founder portrait |
 
-Project copy and facts live in `src/projects.js`; section copy is in `index.html`.
+Project copy, facts, gallery captions and material lists live in `src/projects.js`; section copy is in `index.html`.
+Gallery images currently reuse the six placeholders; add real per-project galleries there.
 
 ## Things to confirm before launch
 
@@ -65,4 +66,4 @@ Please verify:
 
 ## Stack
 
-Vite · GSAP 3 + ScrollTrigger · Lenis · raw WebGL · Google Fonts (Instrument Serif, Inter Tight)
+Vite · Three.js · GSAP 3 · Lenis · Google Fonts (Instrument Serif, Inter Tight)
