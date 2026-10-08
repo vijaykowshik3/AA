@@ -50,7 +50,7 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 }
 @keyframes grain { 0% { transform: translate(0,0);} 25% { transform: translate(-2%,3%);} 50% { transform: translate(3%,-2%);} 75% { transform: translate(-1%,-3%);} 100% { transform: translate(2%,1%);} }
 
-.journey { position: relative; width: 1px; height: 2700vh; pointer-events: none; }
+.journey { position: relative; width: 1px; height: 5400vh; pointer-events: none; }
 
 /* ---------- stage & panels ---------- */
 .stage { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
@@ -158,7 +158,29 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 @keyframes drop { 0% { transform: translateY(-100%);} 100% { transform: translateY(260%);} }
 @media (max-width: 860px) { .hero__title { font-size: clamp(64px, 22vw, 160px); } .hero__bottom { flex-direction: column; align-items: flex-start; } .hero__eyebrow { gap: 16px; } }
 
-/* ---------- manifesto ---------- */
+/* ---------- evolution ---------- */
+.panel--evo { justify-content: space-between; }
+.evo__head { display: flex; justify-content: space-between; align-items: baseline; }
+.evo__counter { font-family: var(--font-serif); font-size: 22px; color: var(--ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.evo__head .panel__tag { max-width: 60%; }
+.evo__counter b { font-weight: 400; color: var(--ink); font-size: 34px; }
+.evo__stations { position: absolute; inset: 0; pointer-events: none; }
+.evo__station { --dy: 0px; position: absolute; top: 50%; width: min(44vw, 560px); transform: translateY(calc(-50% + var(--dy))); opacity: 0; filter: blur(14px); will-change: opacity, filter, transform; display: flex; flex-direction: column; gap: 14px; }
+.evo__station--l { left: var(--gutter); }
+.evo__station--r { right: calc(var(--gutter) + 56px); text-align: right; align-items: flex-end; }
+.evo__era { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); display: flex; gap: 14px; align-items: baseline; }
+.evo__era i { font-style: normal; color: var(--ink-3); letter-spacing: 0.08em; }
+.evo__title { font-family: var(--font-serif); font-weight: 400; font-size: clamp(44px, 6.2vw, 108px); line-height: 0.95; letter-spacing: -0.02em; text-wrap: balance; }
+.evo__text { font-size: clamp(15px, 1.2vw, 19px); color: var(--ink-2); line-height: 1.55; max-width: 40ch; font-weight: 300; }
+.evo__year { position: absolute; left: 50%; bottom: 10vh; transform: translateX(-50%); font-family: var(--font-serif); font-size: clamp(80px, 16vw, 260px); line-height: 1; color: var(--ink); opacity: 0.045; letter-spacing: -0.03em; white-space: nowrap; pointer-events: none; font-variant-numeric: tabular-nums; }
+.evo__hint { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); display: flex; justify-content: flex-end; }
+@media (max-width: 860px) {
+  .evo__station, .evo__station--l, .evo__station--r { left: var(--gutter); right: var(--gutter); width: auto; top: auto; bottom: 14vh; transform: translateY(var(--dy)); text-align: left; align-items: flex-start; }
+  .evo__title { font-size: clamp(40px, 11vw, 72px); }
+  .evo__year { bottom: auto; top: 14vh; font-size: 22vw; }
+}
+
+/* ---------- manifesto (unused) ---------- */
 .panel--manifesto { gap: 32px; }
 .manifesto__text { font-size: clamp(26px, 3.6vw, 60px); line-height: 1.18; letter-spacing: -0.02em; font-weight: 300; max-width: 24ch; }
 .manifesto__text .w { display: inline-block; opacity: 0.14; }

@@ -6,28 +6,26 @@ Bengaluru-based architecture & interiors, editorial typography, bronze/bone pale
 
 ## What's in it
 
-The site is **one continuous world** built from five ideas, all procedural (no 3D files needed):
+The site is **one continuous journey through the evolution of the architect's tools**. A dark studio
+void the camera descends through; each era's tool is built from primitives in code (no 3D files),
+appears first as gold construction lines, then materialises as you arrive, floats while you read,
+and drifts away as you leave. Its era, year, name and what it changed fade and blur in and out.
 
-- **Living Monolith** — a sculpted clay mass stays centred for the whole site and transforms with
-  scroll: carved niches open, it twists, splits for the studio, and dissolves into dust at the end.
-- **Excavation** — the camera descends a shaft of strata; background colour and fog shift with depth.
-- **Unbuilt City** — monolithic volumes along the shaft that carve openings as you pass.
-- **Section Cut** — every volume (and the monolith itself) is drawn first as gold section lines,
-  then fills with material as you approach.
-- **Clay** — the cursor presses a dent into the monolith and reveals finished stone beneath.
+Stations (17): chisel → plumb bob → square & compass → measuring rod → proportion → mason's tools →
+drawing & perspective → architectural model → surveying → photography → steel & concrete → Sketchpad →
+CAD & 3D modelling → BIM & parametric → digital fabrication, VR & LiDAR → generative AI & agents →
+digital twins & robotics. Edit copy and order in `src/evolution.js`; each `tool` key maps to a builder
+in `src/scene.js`.
 
 The journey is a **ring**: scrolling past Contact arrives back at the Hero, scrolling up from the
-Hero lands in Contact. Scroll length is three identical cycles; the page silently keeps you in the
-middle one. Everything on screen is a function of progress mod 1, so the seam is invisible.
+Hero lands in Contact. Everything on screen is a function of scroll progress mod 1.
 
-Sections (all layers over the world, driven purely by scroll position, reversible):
-Hero → Philosophy → Selected work (3D render chambers, six projects) → Studio → Disciplines → Press → Contact.
+Other sections: Hero → Evolution → Selected work (3D render chambers, six projects) → Studio →
+Disciplines → Press → Contact. **Project view** opens in place and turns the scroll horizontal
+(wheel, drag, touch, arrow keys): cover → statement & facts → gallery → materials → next project.
 
-**Project view** opens in place and turns the scroll horizontal (wheel, drag, touch, arrow keys):
-cover → statement & facts → gallery images with parallax → material palette → next project.
-
-Also: journey rail (right edge), fullscreen menu, custom cursor, magnetic buttons, live Bengaluru
-clock, deep links (`#project-<id>`), `prefers-reduced-motion` support, reduced detail on phones.
+Also: journey rail, fullscreen menu, custom cursor, magnetic buttons, live Bengaluru clock,
+deep links (`#project-<id>`), `prefers-reduced-motion` support, reduced detail on phones.
 
 ## Run it
 

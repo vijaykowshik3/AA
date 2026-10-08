@@ -3,6 +3,7 @@ import Lenis from "lenis";
 import { createScene } from "./scene.js";
 import { createProjectView } from "./project-view.js";
 import { PROJECTS } from "./projects.js";
+import { STATIONS } from "./evolution.js";
 
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
@@ -44,7 +45,6 @@ lenis.scrollTo(cycle(), { immediate: true, force: true });
 /* ---------------------------------------------------------
    World
 --------------------------------------------------------- */
-const world = createScene($("#world"), { projectImages: PROJECTS.map(p => p.image), lowPower: isMobile() || isTouch });
 
 /* ---------------------------------------------------------
    Panels — state is a function of progress
@@ -54,11 +54,19 @@ const panels = $$(".panel").map(el => {
   return { el, id: el.id, a, b, active: false, enteredOnce: false };
 });
 const byId = Object.fromEntries(panels.map(p => [p.id, p]));
+const world = createScene($("#world"), { projectImages: PROJECTS.map(p => p.image), evo: { a: byId.evolution.a, b: byId.evolution.b }, lowPower: isMobile() || isTouch });
 
-// manifesto words
-const manifesto = $(".manifesto__text");
-manifesto.innerHTML = manifesto.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(" ");
-const words = $$(".manifesto__text .w");
+// evolution stations
+const evoEl = $("#evoStations");
+evoEl.innerHTML = STATIONS.map((st, i) => `<div class="evo__station evo__station--${i % 2 ? "l" : "r"}" data-i="${i}">
+  <span class="evo__era">${st.era}<i>${st.year}</i></span>
+  <h2 class="evo__title">${st.title}</h2>
+  <p class="evo__text">${st.text}</p>
+</div>`).join("");
+const evoStations = $$(".evo__station");
+const evoYear = $("#evoYear"), evoIndex = $("#evoIndex");
+$("#evoTotal").textContent = String(STATIONS.length).padStart(2, "0");
+let evoActive = -1;
 
 // work
 const N = PROJECTS.length;
@@ -118,9 +126,24 @@ function update() {
     if (s.id === "hero") s.el.style.filter = `blur(${tt * 8}px)`;
     if (tt > 0.5 || !railActive) railActive = s.id;
 
-    if (s.id === "manifesto") {
-      const lit = smooth(0.18, 0.72, tt) * words.length;
-      words.forEach((w, i) => { w.style.opacity = i < lit ? 1 : 0.14; });
+    if (s.id === "evolution") {
+      const n = STATIONS.length, span = 1 / n;
+      let nearest = 0, nd = 9;
+      evoStations.forEach((el, i) => {
+        const d = (tt - (i + 0.5) * span) / span;           // 0 = centred on this station
+        const ad = Math.abs(d);
+        if (ad < nd) { nd = ad; nearest = i; }
+        const vis = 1 - smooth(0.18, 0.62, ad);
+        el.style.opacity = vis;
+        el.style.filter = `blur(${(1 - vis) * 16}px)`;
+        el.style.setProperty("--dy", `${d * -46}px`);
+      });
+      if (nearest !== evoActive) {
+        evoActive = nearest;
+        evoIndex.textContent = String(nearest + 1).padStart(2, "0");
+        gsap.fromTo(evoYear, { opacity: 0 }, { opacity: 0.045, duration: 1.2, ease: "power2.out" });
+        evoYear.textContent = STATIONS[nearest].year.replace("c. ", "");
+      }
     }
     if (s.id === "work") {
       const sub = clamp((tt - WORK_IN) / WORK_SPAN, 0, 1);
@@ -140,7 +163,7 @@ $$("[data-goto]").forEach(el => el.addEventListener("click", e => {
   e.preventDefault();
   const s = byId[el.dataset.goto]; if (!s) return;
   closeMenu();
-  const p = s.id === "hero" ? 0 : s.id === "contact" ? 1 : s.id === "work" ? workProgressFor(0) : s.a + (s.b - s.a) * 0.45;
+  const p = s.id === "hero" ? 0 : s.id === "contact" ? 1 : s.id === "work" ? workProgressFor(0) : s.id === "evolution" ? s.a + (s.b - s.a) * (0.5 / STATIONS.length) : s.a + (s.b - s.a) * 0.45;
   goToProgress(p);
 }));
 
