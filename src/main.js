@@ -20,15 +20,31 @@ gsap.ticker.add(t => lenis.raf(t * 1000));
 gsap.ticker.lagSmoothing(0);
 lenis.stop();
 
-const scrollable = () => document.documentElement.scrollHeight - innerHeight;
-const progressOf = () => clamp(window.scrollY / Math.max(1, scrollable()), 0, 1);
-const goToProgress = (p, opts = {}) => lenis.scrollTo(p * scrollable(), { duration: 1.8, force: true, easing: t => 1 - Math.pow(1 - t, 4), ...opts });
+/* The journey is a ring: three identical cycles of scroll length. We start in the
+   middle one and silently shift by a cycle when drifting into the first or last,
+   so scrolling past Contact arrives back at the Hero, and scrolling up from the
+   Hero lands in Contact. Everything on screen is a function of progress mod 1. */
+history.scrollRestoration = "manual";
+const CYCLES = 3;
+const cycle = () => document.documentElement.scrollHeight / CYCLES;
+const progressOf = () => (((window.scrollY / cycle()) % 1) + 1) % 1;
+const goToProgress = (p, opts = {}) => {
+  const c = cycle(), y = window.scrollY, base = Math.floor(y / c) * c;
+  const cands = [base + p * c, base + p * c - c, base + p * c + c].filter(v => v >= 0 && v <= c * CYCLES - innerHeight);
+  const target = cands.sort((m, n) => Math.abs(m - y) - Math.abs(n - y))[0];
+  lenis.scrollTo(target, { duration: 1.8, force: true, easing: t => 1 - Math.pow(1 - t, 4), ...opts });
+};
+function keepInMiddleCycle() {
+  const c = cycle(), y = window.scrollY;
+  if (y < c * 0.5) lenis.scrollTo(y + c, { immediate: true, force: true });
+  else if (y > c * 2.5) lenis.scrollTo(y - c, { immediate: true, force: true });
+}
+lenis.scrollTo(cycle(), { immediate: true, force: true });
 
 /* ---------------------------------------------------------
    World
 --------------------------------------------------------- */
-const ALL_IMAGES = ["img/pregame.jpg", "img/lucifers-lair.jpg", "img/knossos.jpg", "img/school-lobby.jpg", "img/tech-park.jpg", "img/residence.jpg", "img/studio.jpg", "img/hero.jpg"];
-const world = createScene($("#world"), { images: ALL_IMAGES, projectImages: PROJECTS.map(p => p.image), lowPower: isMobile() || isTouch });
+const world = createScene($("#world"), { projectImages: PROJECTS.map(p => p.image), lowPower: isMobile() || isTouch });
 
 /* ---------------------------------------------------------
    Panels — state is a function of progress
@@ -76,7 +92,9 @@ function runStats() {
 }
 
 let lastProgress = 0, railBtns = $$(".rail__list button");
+let booted = false;
 function update() {
+  keepInMiddleCycle();
   const p = progressOf();
   const dir = p >= lastProgress ? 1 : -1; lastProgress = p;
   world.setProgress(p);
@@ -85,15 +103,16 @@ function update() {
   let railActive = null;
   for (const s of panels) {
     const t = (p - s.a) / (s.b - s.a);
-    const inside = t > 0 && t < 1 || (s.id === "hero" && p === 0) || (s.id === "contact" && p === 1);
+    const inside = (t > 0 && t < 1) || (s.id === "hero" && p === 0);
     if (inside !== s.active) { s.active = inside; s.el.classList.toggle("is-active", inside); if (inside && !s.enteredOnce) { s.enteredOnce = true; if (s.id === "studio") runStats(); } }
     if (!inside) continue;
     const tt = clamp(t, 0, 1);
-    const fin = s.id === "hero" ? 1 : smooth(0, 0.2, tt);
-    const fout = s.id === "contact" ? 1 : 1 - smooth(0.8, 1, tt);
+    const fin = s.id === "hero" ? (booted ? smooth(0, 0.05, tt) : 1) : smooth(0, 0.14, tt);
+    const fout = s.id === "contact" ? 1 - smooth(0.84, 0.97, tt) : 1 - smooth(0.86, 1, tt);
     const o = Math.min(fin, fout);
     let tr;
     if (s.id === "hero") tr = `scale(${1 + tt * 0.35}) translateY(${tt * -6}vh)`;
+    else if (s.id === "contact") tr = `translateY(${(1 - fin) * 48}px) scale(${1 - (1 - fout) * 0.08})`;
     else tr = `translateY(${(1 - fin) * 48 - (1 - fout) * 48}px) scale(${1 - (1 - fout) * 0.04})`;
     s.el.style.opacity = o; s.el.style.transform = tr;
     if (s.id === "hero") s.el.style.filter = `blur(${tt * 8}px)`;
@@ -142,6 +161,7 @@ function runIntro() {
   gsap.timeline({ defaults: { ease: "power4.out" } })
     .to(preloader, { yPercent: -100, duration: 1.1, ease: "power4.inOut" })
     .add(() => { preloader.style.display = "none"; lenis.start(); update(); })
+    .add(() => { booted = true; }, "+=1.5")
     .to($$(".hero__word"), { y: 0, duration: 1.4, stagger: 0.12 }, "-=0.6")
     .from([".hero__eyebrow", ".hero__bottom"], { opacity: 0, y: 20, duration: 1, stagger: 0.1 }, "-=1")
     .to("#header", { y: 0, opacity: 1, duration: 1 }, "-=0.9")
@@ -149,7 +169,7 @@ function runIntro() {
     .add(() => { if (location.hash.startsWith("#project-")) pv.open(location.hash.slice(9)); });
 }
 if (reduced) {
-  preloader.style.display = "none"; lenis.start(); gsap.set(["#header", "#rail"], { y: 0, opacity: 1 }); update();
+  preloader.style.display = "none"; lenis.start(); gsap.set(["#header", "#rail"], { y: 0, opacity: 1 }); update(); booted = true;
   if (location.hash.startsWith("#project-")) pv.open(location.hash.slice(9));
 } else {
   const letters = $$(".preloader__word span"), prog = { v: 0 };

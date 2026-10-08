@@ -50,7 +50,7 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 }
 @keyframes grain { 0% { transform: translate(0,0);} 25% { transform: translate(-2%,3%);} 50% { transform: translate(3%,-2%);} 75% { transform: translate(-1%,-3%);} 100% { transform: translate(2%,1%);} }
 
-.journey { position: relative; width: 1px; height: 1000vh; pointer-events: none; }
+.journey { position: relative; width: 1px; height: 2700vh; pointer-events: none; }
 
 /* ---------- stage & panels ---------- */
 .stage { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
@@ -252,9 +252,9 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 .contact__cols { display: grid; grid-template-columns: repeat(4, minmax(0, 220px)); gap: 24px; font-size: 14px; color: var(--ink-2); line-height: 1.55; }
 .contact__cols h4 { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; font-weight: 500; }
 .contact__foot { display: flex; justify-content: space-between; align-items: center; font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); padding-top: 20px; border-top: 1px solid var(--line); }
-.contact__top { display: inline-flex; align-items: center; gap: 10px; transition: color 0.3s; }
-.contact__top:hover { color: var(--ink); }
-.contact__top i { width: 8px; height: 8px; border-top: 1px solid currentColor; border-left: 1px solid currentColor; transform: rotate(45deg); }
+.contact__loop { display: inline-flex; align-items: center; gap: 10px; }
+.contact__loop i { width: 8px; height: 8px; border-bottom: 1px solid currentColor; border-right: 1px solid currentColor; transform: rotate(45deg); animation: nudge 1.6s var(--ease) infinite; }
+@keyframes nudge { 0%,100% { transform: translateY(-2px) rotate(45deg);} 50% { transform: translateY(2px) rotate(45deg);} }
 @media (max-width: 860px) { .panel--contact { padding-right: var(--gutter); } .contact__cols { grid-template-columns: 1fr 1fr; gap: 16px; } .contact__cols p { font-size: 13px; } }
 
 /* =========================================================

@@ -6,21 +6,28 @@ Bengaluru-based architecture & interiors, editorial typography, bronze/bone pale
 
 ## What's in it
 
-The whole site is **one continuous journey**: a Three.js world (floating stone slabs, dust, a warm light
-at the far end) that the camera travels through as you scroll. Every section is a layer whose state is a
-pure function of scroll position, so scrolling up plays everything in reverse.
+The site is **one continuous world** built from five ideas, all procedural (no 3D files needed):
 
-- **Preloader** — serif wordmark rises, counter runs to 100, curtain lifts into the world.
-- **Hero** — the wordmark scales and blurs away as you dive in.
-- **Philosophy** — words light up one by one with scroll.
-- **Selected work** — scrolling moves through six projects; the active project's image floats in 3D
-  ahead of the camera while neighbours wait at the sides. Counter, project list and "Open project".
-- **Project view** — opens in place and turns the scroll **horizontal** (wheel, drag, touch, arrow keys):
-  cover → statement & facts → gallery images with parallax → material palette → next project.
-- **Studio**, **Disciplines** (hover image follows the cursor), **Press** (velocity-aware marquee),
-  **Contact** (email, hours, studio, social, careers).
-- Journey rail on the right (click to jump), fullscreen menu, custom cursor, magnetic buttons,
-  live Bengaluru clock, deep links (`#project-<id>`), `prefers-reduced-motion` support.
+- **Living Monolith** — a sculpted clay mass stays centred for the whole site and transforms with
+  scroll: carved niches open, it twists, splits for the studio, and dissolves into dust at the end.
+- **Excavation** — the camera descends a shaft of strata; background colour and fog shift with depth.
+- **Unbuilt City** — monolithic volumes along the shaft that carve openings as you pass.
+- **Section Cut** — every volume (and the monolith itself) is drawn first as gold section lines,
+  then fills with material as you approach.
+- **Clay** — the cursor presses a dent into the monolith and reveals finished stone beneath.
+
+The journey is a **ring**: scrolling past Contact arrives back at the Hero, scrolling up from the
+Hero lands in Contact. Scroll length is three identical cycles; the page silently keeps you in the
+middle one. Everything on screen is a function of progress mod 1, so the seam is invisible.
+
+Sections (all layers over the world, driven purely by scroll position, reversible):
+Hero → Philosophy → Selected work (3D render chambers, six projects) → Studio → Disciplines → Press → Contact.
+
+**Project view** opens in place and turns the scroll horizontal (wheel, drag, touch, arrow keys):
+cover → statement & facts → gallery images with parallax → material palette → next project.
+
+Also: journey rail (right edge), fullscreen menu, custom cursor, magnetic buttons, live Bengaluru
+clock, deep links (`#project-<id>`), `prefers-reduced-motion` support, reduced detail on phones.
 
 ## Run it
 
