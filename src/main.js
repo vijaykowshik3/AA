@@ -3,7 +3,6 @@ import Lenis from "lenis";
 import { createScene } from "./scene.js";
 import { createProjectView } from "./project-view.js";
 import { PROJECTS } from "./projects.js";
-import { STATIONS } from "./evolution.js";
 import { createPano } from "./pano.js";
 
 const $ = (s, c = document) => c.querySelector(s);
@@ -56,19 +55,7 @@ const panels = $$(".panel").map(el => {
   return { el, id: el.id, a, b, active: false, enteredOnce: false };
 });
 const byId = Object.fromEntries(panels.map(p => [p.id, p]));
-const world = createScene($("#world"), { projectImages: PROJECTS.map(p => p.image), evo: { a: byId.evolution.a, b: byId.evolution.b }, lowPower: isMobile() || isTouch });
-
-// evolution stations
-const evoEl = $("#evoStations");
-evoEl.innerHTML = STATIONS.map((st, i) => `<div class="evo__station evo__station--${i % 2 ? "l" : "r"}" data-i="${i}">
-  <span class="evo__era">${st.era}<i>${st.year}</i></span>
-  <h2 class="evo__title">${st.title}</h2>
-  <p class="evo__text">${st.text}</p>
-</div>`).join("");
-const evoStations = $$(".evo__station");
-const evoYear = $("#evoYear"), evoIndex = $("#evoIndex");
-$("#evoTotal").textContent = String(STATIONS.length).padStart(2, "0");
-let evoActive = -1;
+const world = createScene($("#world"), { projectImages: PROJECTS.map(p => p.image), lowPower: isMobile() || isTouch });
 
 // work
 const N = PROJECTS.length;
@@ -128,25 +115,6 @@ function update() {
     if (s.id === "hero") s.el.style.filter = `blur(${tt * 10}px)`;
     if (tt > 0.5 || !railActive) railActive = s.id;
 
-    if (s.id === "evolution") {
-      const n = STATIONS.length, span = 1 / n;
-      let nearest = 0, nd = 9;
-      evoStations.forEach((el, i) => {
-        const d = (tt - (i + 0.5) * span) / span;           // 0 = centred on this station
-        const ad = Math.abs(d);
-        if (ad < nd) { nd = ad; nearest = i; }
-        const vis = 1 - smooth(0.18, 0.62, ad);
-        el.style.opacity = vis;
-        el.style.filter = `blur(${(1 - vis) * 16}px)`;
-        el.style.setProperty("--dy", `${d * -46}px`);
-      });
-      if (nearest !== evoActive) {
-        evoActive = nearest;
-        evoIndex.textContent = String(nearest + 1).padStart(2, "0");
-        gsap.fromTo(evoYear, { opacity: 0 }, { opacity: 0.045, duration: 1.2, ease: "power2.out" });
-        evoYear.textContent = STATIONS[nearest].year.replace("c. ", "");
-      }
-    }
     if (s.id === "work") {
       const sub = clamp((tt - WORK_IN) / WORK_SPAN, 0, 1);
       const cont = sub * (N - 1);
@@ -166,11 +134,14 @@ $$("[data-goto]").forEach(el => el.addEventListener("click", e => {
   e.preventDefault();
   const s = byId[el.dataset.goto]; if (!s) return;
   closeMenu();
-  const p = s.id === "hero" ? 0 : s.id === "contact" ? 1 : s.id === "work" ? workProgressFor(0) : s.id === "evolution" ? s.a + (s.b - s.a) * (0.5 / STATIONS.length) : s.a + (s.b - s.a) * 0.45;
+  const p = s.id === "hero" ? 0 : s.id === "contact" ? 1 : s.id === "work" ? workProgressFor(0) : s.a + (s.b - s.a) * 0.45;
   goToProgress(p);
 }));
 
-pano = createPano($("#pano"), { src: "img/pano.webp", notesEl: $("#panoNotes"), reduced });
+pano = createPano($("#pano"), { src: "img/pano.webp", notesEl: $("#panoNotes"), reduced,
+  onProgress: f => { $("#loaderBar").style.width = `${Math.round(f * 90)}%`; },
+  onLoad: () => runIntro() });
+setTimeout(() => runIntro(), 6000);   // never hold the page back on a slow connection
 
 /* ---------------------------------------------------------
    Project view
@@ -184,28 +155,27 @@ $("#workOpen").addEventListener("click", () => pv.open(PROJECTS[Math.max(0, acti
 /* ---------------------------------------------------------
    Preloader → intro
 --------------------------------------------------------- */
-const preloader = $("#preloader"), count = $("#preloaderCount"), bar = $("#preloaderBar");
+// No splash screen: the render is the first thing you see. A hairline at the
+// top shows loading progress, and the hero text settles in once the image is ready.
+const loader = $("#loader"), loaderBar = $("#loaderBar");
+let introDone = false;
 function runIntro() {
-  gsap.timeline({ defaults: { ease: "power4.out" } })
-    .to(preloader, { yPercent: -100, duration: 1.1, ease: "power4.inOut" })
-    .add(() => { preloader.style.display = "none"; lenis.start(); update(); })
-    .add(() => { booted = true; }, "+=1.5")
-    .to($$(".hero__word"), { y: 0, duration: 1.4, stagger: 0.12 }, "-=0.6")
-    .from([".hero__eyebrow", ".hero__bottom"], { opacity: 0, y: 20, duration: 1, stagger: 0.1 }, "-=1")
-    .to(pano.view, { intro: 1, duration: 2.6, ease: "power3.out" }, "-=1.6")
-    .to("#header", { y: 0, opacity: 1, duration: 1 }, "-=0.9")
-    .to("#rail", { opacity: 1, duration: 1 }, "-=0.8")
-    .add(() => { if (location.hash.startsWith("#project-")) pv.open(location.hash.slice(9)); });
-}
-if (reduced) {
-  preloader.style.display = "none"; lenis.start(); gsap.set(["#header", "#rail"], { y: 0, opacity: 1 }); update(); booted = true;
-  if (location.hash.startsWith("#project-")) pv.open(location.hash.slice(9));
-} else {
-  const letters = $$(".preloader__word span"), prog = { v: 0 };
-  gsap.timeline({ onComplete: runIntro })
-    .to(letters, { y: 0, duration: 1, stagger: 0.05, ease: "power4.out" })
-    .to(prog, { v: 100, duration: 1.5, ease: "power2.inOut", onUpdate: () => { count.textContent = String(Math.round(prog.v)).padStart(2, "0"); bar.style.width = prog.v + "%"; } }, "-=0.4")
-    .to(letters, { y: "-110%", duration: 0.8, stagger: 0.04, ease: "power4.in" }, "-=0.2");
+  if (introDone) return; introDone = true;
+  loaderBar.style.width = "100%"; loader.classList.add("is-done");
+  lenis.start(); update();
+  if (reduced) {
+    gsap.set([".hero__word", ".hero__sub span"], { y: 0 }); gsap.set(["#header", "#rail"], { y: 0, opacity: 1 }); pano.view.intro = 1; booted = true;
+  } else {
+    gsap.timeline({ defaults: { ease: "power3.out" } })
+      .to(pano.view, { intro: 1, duration: 3.2, ease: "power2.out" }, 0)
+      .to(".hero__word", { y: 0, duration: 1.6, ease: "power4.out" }, 0.5)
+      .to(".hero__sub span", { y: 0, duration: 1.2 }, 0.8)
+      .from(".hero__bottom", { opacity: 0, y: 16, duration: 1.2 }, 1.0)
+      .to("#header", { y: 0, opacity: 1, duration: 1.2 }, 0.9)
+      .to("#rail", { opacity: 1, duration: 1.2 }, 1.2)
+      .add(() => { booted = true; }, 1.6);
+  }
+  if (location.hash.startsWith("#project-")) setTimeout(() => pv.open(location.hash.slice(9)), reduced ? 0 : 1800);
 }
 update();
 

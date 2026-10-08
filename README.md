@@ -6,26 +6,16 @@ Bengaluru-based architecture & interiors, editorial typography, bronze/bone pale
 
 ## What's in it
 
-The site is **one continuous journey through the evolution of the architect's tools**. A dark studio
-void the camera descends through; each era's tool is built from primitives in code (no 3D files),
-appears first as gold construction lines, then materialises as you arrive, floats while you read,
-and drifts away as you leave. Its era, year, name and what it changed fade and blur in and out.
+- **Hero** — a 360° panorama render you hold and drag to look around, with handwritten notes that
+  blur in and out on elements in the room. No splash screen: the render shows straight away, with a
+  hairline loading bar at the top while it loads. The name is set in light Cormorant Garamond.
+- **Selected work** — scrolling moves through six projects floating in a dark 3D space.
+  **Open project** turns the scroll horizontal: cover → statement & facts → gallery → materials → next.
+- **Studio** — founder portrait, story and stats. **Disciplines**, **Press**, **Contact**.
+- The journey is a loop: scrolling past Contact returns to the Hero, and scrolling up from the Hero
+  lands in Contact.
 
-Stations (17): chisel → plumb bob → square & compass → measuring rod → proportion → mason's tools →
-drawing & perspective → architectural model → surveying → photography → steel & concrete → Sketchpad →
-CAD & 3D modelling → BIM & parametric → digital fabrication, VR & LiDAR → generative AI & agents →
-digital twins & robotics. Edit copy and order in `src/evolution.js`; each `tool` key maps to a builder
-in `src/scene.js`.
-
-The journey is a **ring**: scrolling past Contact arrives back at the Hero, scrolling up from the
-Hero lands in Contact. Everything on screen is a function of scroll progress mod 1.
-
-Other sections: Hero → Evolution → Selected work (3D render chambers, six projects) → Studio →
-Disciplines → Press → Contact. **Project view** opens in place and turns the scroll horizontal
-(wheel, drag, touch, arrow keys): cover → statement & facts → gallery → materials → next project.
-
-Also: journey rail, fullscreen menu, custom cursor, magnetic buttons, live Bengaluru clock,
-deep links (`#project-<id>`), `prefers-reduced-motion` support, reduced detail on phones.
+Project content lives in `src/projects.js`; images in `public/img/`.
 
 ## Run it
 

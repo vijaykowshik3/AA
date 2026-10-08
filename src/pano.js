@@ -20,7 +20,7 @@ export const NOTES = [
 
 const dirOf = (u, v, r = 1) => new THREE.Vector3(Math.cos(2 * Math.PI * u) * Math.sin(Math.PI * v), Math.cos(Math.PI * v), Math.sin(2 * Math.PI * u) * Math.sin(Math.PI * v)).multiplyScalar(r);
 
-export function createPano(root, { src, notesEl, reduced = false }) {
+export function createPano(root, { src, notesEl, reduced = false, onProgress, onLoad }) {
   const canvas = root.querySelector("canvas");
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
@@ -28,7 +28,7 @@ export function createPano(root, { src, notesEl, reduced = false }) {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(78, 1, 0.1, 100);
 
-  const tex = new THREE.TextureLoader().load(src, () => root.classList.add("is-loaded"));
+  const tex = new THREE.TextureLoader().load(src, () => { root.classList.add("is-loaded"); onLoad?.(); }, e => { if (e.total) onProgress?.(e.loaded / e.total); }, () => onLoad?.());
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
   tex.minFilter = THREE.LinearFilter;
@@ -111,7 +111,7 @@ export function createPano(root, { src, notesEl, reduced = false }) {
       const centre = Math.hypot(v3.x * 0.85, v3.y);                // 0 centre .. ~1.3 edge
       const focus = 1 - Math.min(1, Math.max(0, (centre - 0.15) / 0.75));
       const breathe = 0.5 + 0.5 * Math.sin(t * 0.45 + i * 1.7);       // each note drifts in and out on its own rhythm
-      const clearOfTitle = 1 - Math.min(1, Math.max(0, (y / h - 0.56) / 0.08));
+      const clearOfTitle = 1 - Math.min(1, Math.max(0, (y / h - 0.64) / 0.08));
       const o = Math.min(1, focus * 1.4) * (0.15 + 0.85 * breathe) * clearOfTitle * view.intro;
       el.style.opacity = o.toFixed(3);
       el.style.filter = `blur(${((1 - o) * 9).toFixed(2)}px)`;

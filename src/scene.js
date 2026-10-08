@@ -6,14 +6,14 @@
  * Everything is a function of scroll progress, which is periodic (the loop).
  */
 import * as THREE from "three";
-import { STATIONS } from "./evolution.js";
+const STATIONS = [];
 
-export const DEPTH = 220;
+export const DEPTH = 120;
 const ss = (x, a, b) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 
 const BG = [[0, "#0a0a0c"], [0.08, "#0c0b0b"], [0.35, "#120f0e"], [0.62, "#1a1310"], [0.78, "#121214"], [0.9, "#0c0c0d"], [0.96, "#050505"], [1, "#040404"]];
 
-export function createScene(canvas, { projectImages, evo, lowPower = false }) {
+export function createScene(canvas, { projectImages, evo = { a: 0, b: 0 }, lowPower = false }) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: !lowPower, alpha: false, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, lowPower ? 1 : 1.6));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -121,7 +121,7 @@ export function createScene(canvas, { projectImages, evo, lowPower = false }) {
 
   const clock = new THREE.Clock();
   let last = 0;
-  const span = (evo.b - evo.a) / stations.length;
+  const span = 1;
 
   function frame() {
     requestAnimationFrame(frame);

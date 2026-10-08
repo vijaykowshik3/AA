@@ -9,23 +9,12 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="src/styles.css" />
   </head>
   <body>
-    <!-- Preloader -->
-    <div class="preloader" id="preloader" aria-hidden="true">
-      <div class="preloader__inner">
-        <div class="preloader__word" aria-hidden="true">
-          <span>A</span><span>T</span><span>E</span><span>L</span><span>I</span><span>E</span><span>R</span>
-        </div>
-        <div class="preloader__meta">
-          <span class="preloader__label">Entering the studio</span>
-          <span class="preloader__count" id="preloaderCount">00</span>
-        </div>
-      </div>
-      <div class="preloader__bar"><i id="preloaderBar"></i></div>
-    </div>
+    <!-- Loader: a thin line over the render while it loads -->
+    <div class="loader" id="loader" aria-hidden="true"><i id="loaderBar"></i></div>
 
     <!-- Cursor -->
     <div class="cursor is-hidden" id="cursor" aria-hidden="true">
@@ -61,7 +50,6 @@
       <div class="rail__line"><i id="railFill"></i></div>
       <ul class="rail__list">
         <li><button data-goto="hero"><span>Atelier</span></button></li>
-        <li><button data-goto="evolution"><span>Evolution</span></button></li>
         <li><button data-goto="work"><span>Work</span></button></li>
         <li><button data-goto="studio"><span>Studio</span></button></li>
         <li><button data-goto="disciplines"><span>Disciplines</span></button></li>
@@ -75,7 +63,6 @@
       <div class="menu__bg"></div>
       <div class="menu__inner">
         <ul class="menu__list">
-          <li><a href="#evolution" class="menu__link" data-goto="evolution"><span class="menu__word">Evolution</span></a></li>
           <li><a href="#work" class="menu__link" data-goto="work"><span class="menu__word">Work</span></a></li>
           <li><a href="#studio" class="menu__link" data-goto="studio"><span class="menu__word">Studio</span></a></li>
           <li><a href="#disciplines" class="menu__link" data-goto="disciplines"><span class="menu__word">Disciplines</span></a></li>
@@ -100,43 +87,33 @@
     <main class="stage" id="stage">
 
       <!-- 01 Hero -->
-      <section class="panel panel--hero" id="hero" data-range="0,0.09">
+      <section class="panel panel--hero" id="hero" data-range="0,0.14">
         <div class="pano" id="pano">
           <canvas aria-label="360 degree view of a residence interior by Atelier Astil. Hold and drag to look around."></canvas>
           <div class="pano__notes" id="panoNotes" aria-hidden="true"></div>
           <div class="pano__veil" aria-hidden="true"></div>
         </div>
         <div class="hero__top">
-          <p class="hero__eyebrow"><span>Architecture &amp; Interiors</span><span>Bengaluru</span></p>
+          
         </div>
         <div class="hero__base">
           <h1 class="hero__title" aria-label="Atelier Astil">
             <span class="hero__line"><span class="hero__word">Atelier Astil</span></span>
+            <span class="hero__sub"><span>Architecture &amp; Interiors · Bengaluru</span></span>
           </h1>
           <div class="hero__bottom">
             <p class="hero__intro">Spaces composed end to end — light, stone, timber and air.</p>
             <div class="hero__drag"><span class="hero__drag-ring"><i></i></span><span>Hold &amp; drag to look around</span></div>
             <div class="hero__scroll">
-              <span class="hero__scroll-text">Scroll to descend</span>
+              <span class="hero__scroll-text">Scroll</span>
               <span class="hero__scroll-line"><i></i></span>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 02 Evolution of the architect's tools -->
-      <section class="panel panel--evo" id="evolution" data-range="0.08,0.64">
-        <div class="evo__head">
-          <span class="panel__tag">The evolution of the architect’s tools</span>
-          <span class="evo__counter"><b id="evoIndex">01</b> / <span id="evoTotal">17</span></span>
-        </div>
-        <div class="evo__stations" id="evoStations"></div>
-        <div class="evo__year" id="evoYear" aria-hidden="true"></div>
-        <div class="evo__hint"><span>Scroll through time</span></div>
-      </section>
-
       <!-- 03 Work -->
-      <section class="panel panel--work" id="work" data-range="0.64,0.80">
+      <section class="panel panel--work" id="work" data-range="0.14,0.52">
         <div class="work__head">
           <span class="panel__tag">Selected work</span>
           <span class="work__counter"><b id="workIndex">01</b> / <span id="workTotal">06</span></span>
@@ -156,10 +133,10 @@
       </section>
 
       <!-- 04 Studio -->
-      <section class="panel panel--studio" id="studio" data-range="0.80,0.87">
+      <section class="panel panel--studio" id="studio" data-range="0.52,0.67">
         <div class="studio__grid">
           <figure class="studio__figure">
-            <img src="img/studio.jpg" alt="Arpita Sharma, founder of Atelier Astil" />
+            <img src="img/founder.jpg" alt="Arpita Sharma, founder and principal architect of Atelier Astil" />
             <figcaption>Arpita Sharma — Founder &amp; Principal Architect</figcaption>
           </figure>
           <div class="studio__copy">
@@ -176,7 +153,7 @@
       </section>
 
       <!-- 05 Disciplines -->
-      <section class="panel panel--disc" id="disciplines" data-range="0.87,0.92">
+      <section class="panel panel--disc" id="disciplines" data-range="0.67,0.79">
         <span class="panel__tag">What we do</span>
         <ul class="disc__list" id="discList">
           <li class="disc__row" data-img="img/residence.jpg"><h3>Architecture</h3><p>Residences, high-rises, schools and tech parks — grounded, climate-aware, precise.</p></li>
@@ -189,7 +166,7 @@
       </section>
 
       <!-- 06 Press -->
-      <section class="panel panel--press" id="press" data-range="0.92,0.95">
+      <section class="panel panel--press" id="press" data-range="0.79,0.89">
         <span class="panel__tag">Featured in</span>
         <ul class="press__list">
           <li class="press__item"><span class="press__src">ELLE Decor India</span><a href="#" data-cursor="Read">Pregame? Inside Bengaluru’s retail store and bar by Atelier Astil</a></li>
@@ -205,7 +182,7 @@
       </section>
 
       <!-- 07 Contact -->
-      <section class="panel panel--contact" id="contact" data-range="0.95,1">
+      <section class="panel panel--contact" id="contact" data-range="0.89,1">
         <span class="panel__tag">Next</span>
         <h2 class="contact__title"><span>Let’s build</span><span>something <em>rare.</em></span></h2>
         <a href="mailto:projects@atelierastil.com" class="contact__mail" data-magnetic data-cursor="Write">
