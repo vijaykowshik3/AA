@@ -145,12 +145,12 @@ em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
 .pano { position: absolute; inset: 0; overflow: hidden; background: #1a140f; cursor: grab; }
 .pano.is-dragging { cursor: grabbing; }
 body.has-cursor .pano { cursor: none; }
-.pano canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; opacity: 0; transition: opacity 1.6s var(--ease-out); }
+.pano canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; opacity: 0; transition: opacity 1.2s var(--ease-out); }
 .pano.is-loaded canvas { opacity: 1; }
 .pano__veil { position: absolute; inset: 0; pointer-events: none;
   background:
     linear-gradient(to bottom, rgba(10,9,8,0.55) 0%, rgba(10,9,8,0) 22%),
-    linear-gradient(to top, rgba(10,9,8,0.72) 0%, rgba(10,9,8,0.28) 24%, rgba(10,9,8,0) 44%),
+    linear-gradient(to top, rgba(10,9,8,0.6) 0%, rgba(10,9,8,0.22) 26%, rgba(10,9,8,0) 46%),
     radial-gradient(120% 90% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%); }
 .pano__notes { position: absolute; inset: 0; pointer-events: none; }
 .pnote { position: absolute; left: 0; top: 0; opacity: 0; will-change: transform, opacity, filter; display: flex; align-items: flex-start; gap: 10px; }
@@ -161,15 +161,18 @@ body.has-cursor .pano { cursor: none; }
 .hero__base { padding-bottom: calc(var(--gutter) + 6px); display: flex; flex-direction: column; gap: 22px; }
 .hero__base a, .hero__base button { pointer-events: auto; }
 .hero__eyebrow { display: flex; gap: 32px; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,250,242,0.8); }
-.hero__title { font-family: var(--font-display); font-weight: 300; letter-spacing: 0.01em; line-height: 1; font-size: clamp(40px, 5.2vw, 84px); color: #fffaf2; margin: 0; text-shadow: 0 6px 40px rgba(20,12,6,0.45); }
+.hero__title { font-family: var(--font-display); font-weight: 300; letter-spacing: 0.01em; line-height: 1; font-size: clamp(40px, 5.2vw, 84px); color: #fffaf2; margin: 0; text-shadow: 0 2px 24px rgba(20,12,6,0.55), 0 0 2px rgba(20,12,6,0.25); }
 .hero__sub { display: block; overflow: hidden; margin-top: 10px; }
 .hero__sub span { display: block; font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: rgba(255,250,242,0.72); transform: translateY(110%); }
-.hero__line { display: block; overflow: hidden; padding: 0.04em 0 0.02em; }
+.hero__line { display: block; overflow: hidden; padding: 0.06em 0 0.08em; }
+.hero__word .ch { display: inline-block; will-change: transform, opacity; }
+.hero__word .ch--sp { width: 0.26em; }
 .hero__word { display: block; transform: translateY(110%); }
-.hero__bottom { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 32px; border-top: 1px solid rgba(255,250,242,0.22); padding-top: 18px; }
+.hero__bottom { --line: 1; position: relative; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 32px; padding-top: 18px; }
+.hero__bottom::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(255,250,242,0.26); transform: scaleX(var(--line)); transform-origin: left; }
 .hero__intro { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: clamp(17px, 1.35vw, 21px); color: rgba(255,250,242,0.82); max-width: 34ch; line-height: 1.35; }
 .hero__drag { display: inline-flex; align-items: center; gap: 12px; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,250,242,0.85); transition: opacity 0.8s var(--ease-out), filter 0.8s; justify-self: center; }
-.pano.is-touched ~ .hero__base .hero__drag, .panel--hero:has(.pano.is-touched) .hero__drag { opacity: 0; filter: blur(6px); }
+.pano.is-touched ~ .hero__base .hero__drag, .panel--hero:has(.pano.is-touched) .hero__drag { opacity: 0; transform: translateY(6px); }
 .hero__drag-ring { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,250,242,0.5); display: grid; place-items: center; }
 .hero__drag-ring i { width: 6px; height: 6px; border-radius: 50%; background: #fffaf2; animation: dragHint 2.4s var(--ease) infinite; }
 @keyframes dragHint { 0%,100% { transform: translateX(-7px); } 50% { transform: translateX(7px); } }

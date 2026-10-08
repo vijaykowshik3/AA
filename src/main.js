@@ -108,11 +108,10 @@ function update() {
     const fout = s.id === "contact" ? 1 - smooth(0.84, 0.97, tt) : 1 - smooth(0.86, 1, tt);
     const o = Math.min(fin, fout);
     let tr;
-    if (s.id === "hero") tr = `scale(${1 + tt * 0.18})`;
+    if (s.id === "hero") tr = `scale(${1 + tt * 0.06})`;
     else if (s.id === "contact") tr = `translateY(${(1 - fin) * 48}px) scale(${1 - (1 - fout) * 0.08})`;
     else tr = `translateY(${(1 - fin) * 48 - (1 - fout) * 48}px) scale(${1 - (1 - fout) * 0.04})`;
     s.el.style.opacity = o; s.el.style.transform = tr;
-    if (s.id === "hero") s.el.style.filter = `blur(${tt * 10}px)`;
     if (tt > 0.5 || !railActive) railActive = s.id;
 
     if (s.id === "work") {
@@ -158,6 +157,8 @@ $("#workOpen").addEventListener("click", () => pv.open(PROJECTS[Math.max(0, acti
 // No splash screen: the render is the first thing you see. A hairline at the
 // top shows loading progress, and the hero text settles in once the image is ready.
 const loader = $("#loader"), loaderBar = $("#loaderBar");
+const heroWord = $(".hero__word");
+heroWord.innerHTML = [...heroWord.textContent].map(c => c === " " ? '<span class="ch ch--sp"> </span>' : `<span class="ch">${c}</span>`).join("");
 let introDone = false;
 function runIntro() {
   if (introDone) return; introDone = true;
@@ -166,12 +167,14 @@ function runIntro() {
   if (reduced) {
     gsap.set([".hero__word", ".hero__sub span"], { y: 0 }); gsap.set(["#header", "#rail"], { y: 0, opacity: 1 }); pano.view.intro = 1; booted = true;
   } else {
+    gsap.set(".hero__word", { y: 0 });
     gsap.timeline({ defaults: { ease: "power3.out" } })
-      .to(pano.view, { intro: 1, duration: 3.2, ease: "power2.out" }, 0)
-      .to(".hero__word", { y: 0, duration: 1.6, ease: "power4.out" }, 0.5)
-      .to(".hero__sub span", { y: 0, duration: 1.2 }, 0.8)
-      .from(".hero__bottom", { opacity: 0, y: 16, duration: 1.2 }, 1.0)
-      .to("#header", { y: 0, opacity: 1, duration: 1.2 }, 0.9)
+      .to(pano.view, { intro: 1, duration: 2.8, ease: "power2.out" }, 0)
+      .fromTo(".hero__word .ch", { yPercent: 105, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.3, stagger: 0.045, ease: "power4.out" }, 0.4)
+      .to(".hero__sub span", { y: 0, duration: 1.1 }, 1.0)
+      .fromTo(".hero__bottom", { "--line": 0 }, { "--line": 1, duration: 1.6, ease: "power3.inOut" }, 1.0)
+      .from([".hero__intro", ".hero__drag", ".hero__scroll"], { opacity: 0, y: 18, duration: 1.1, stagger: 0.12 }, 1.3)
+      .to("#header", { y: 0, opacity: 1, duration: 1.2 }, 0.8)
       .to("#rail", { opacity: 1, duration: 1.2 }, 1.2)
       .add(() => { booted = true; }, 1.6);
   }

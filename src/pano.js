@@ -92,8 +92,8 @@ export function createPano(root, { src, notesEl, reduced = false, onProgress, on
     }
     view.lat = Math.max(-75, Math.min(75, view.lat));
     view.fov += (view.tFov - view.fov) * 0.08;
-    // intro: start pushed in and blurred, settle out
-    camera.fov = view.fov - (1 - view.intro) * 18;
+    // intro: start slightly pushed in, settle out
+    camera.fov = view.fov - (1 - view.intro) * 8;
     camera.updateProjectionMatrix();
     const phi = THREE.MathUtils.degToRad(90 - view.lat), th = THREE.MathUtils.degToRad(view.lon);
     fwd.set(Math.sin(phi) * Math.cos(th), Math.cos(phi), Math.sin(phi) * Math.sin(th));
@@ -114,7 +114,7 @@ export function createPano(root, { src, notesEl, reduced = false, onProgress, on
       const clearOfTitle = 1 - Math.min(1, Math.max(0, (y / h - 0.64) / 0.08));
       const o = Math.min(1, focus * 1.4) * (0.15 + 0.85 * breathe) * clearOfTitle * view.intro;
       el.style.opacity = o.toFixed(3);
-      el.style.filter = `blur(${((1 - o) * 9).toFixed(2)}px)`;
+      el.style.filter = `blur(${((1 - o) * 1.5).toFixed(2)}px)`;
       el.style.transform = `translate3d(${x.toFixed(1)}px, ${(y + Math.sin(t * 0.8 + i) * 4).toFixed(1)}px, 0)`;
     });
   }
