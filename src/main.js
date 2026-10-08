@@ -75,7 +75,7 @@ function setWorkText(i, dir) {
   const els = [$("#workKicker"), $("#workTitle"), $("#workLocation").parentElement];
   gsap.timeline()
     .to(els, { y: -14 * dir, opacity: 0, duration: 0.25, ease: "power2.in", stagger: 0.03 })
-    .add(() => { $("#workKicker").textContent = p.kicker; $("#workTitle").textContent = p.title; $("#workLocation").textContent = p.location; $("#workYear").textContent = p.year; })
+    .add(() => { $("#workKicker").textContent = p.kicker; $("#workTitle").textContent = p.title; $("#workLocation").textContent = p.location; $("#workYear").textContent = [p.area, p.year].filter(Boolean).join(" · "); })
     .fromTo(els, { y: 18 * dir, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out", stagger: 0.05 });
 }
 workNavBtns.forEach(b => b.addEventListener("click", () => goToProgress(workProgressFor(+b.dataset.work))));

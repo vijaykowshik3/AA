@@ -26,37 +26,53 @@ export function createProjectView({ onOpen, onClose }) {
     nameEl.textContent = p.title;
     counterEl.textContent = `${String(i + 1).padStart(2, "0")} / ${String(PROJECTS.length).padStart(2, "0")}`;
     const facts = Object.entries(p.facts).map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("");
-    const images = p.gallery.map((g, n) => `
-      <section class="pv__panel pv__image ${n % 2 ? "pv__image--tall" : ""}">
-        <figure><img src="${g.src}" alt="${g.caption}" data-px /></figure>
+    // Interleave: images, with the remaining paragraphs set as quiet text columns between them.
+    const rest = p.paras.slice(1);
+    const textPanel = para => `<section class="pv__panel pv__note">${para.h ? `<h4>${para.h}</h4>` : ""}<p>${para.t}</p></section>`;
+    const imgPanel = (g, n) => {
+      const ar = g.w / g.h, kind = ar < 0.9 ? "tall" : ar > 1.45 ? "wide" : "std";
+      return `<section class="pv__panel pv__image pv__image--${kind}" style="--ar:${ar.toFixed(3)}">
+        <figure><img src="${g.src}" alt="${g.caption}" loading="lazy" decoding="async" data-px /></figure>
         <figcaption><b>${String(n + 1).padStart(2, "0")}</b>${g.caption}</figcaption>
-      </section>`).join("");
+      </section>`;
+    };
+    const gal = p.gallery.slice(1);
+    let body = "", ti = 0;
+    const every = Math.max(1, Math.round(gal.length / Math.max(1, rest.length)));
+    gal.forEach((g, n) => {
+      body += imgPanel(g, n + 1);
+      if ((n + 1) % every === 0 && ti < rest.length) body += textPanel(rest[ti++]);
+      if (n === 1 && p.video) body += `<section class="pv__panel pv__image pv__image--tall pv__video" style="--ar:0.5625"><figure><video src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline preload="none"></video></figure><figcaption><b>Film</b>${p.video.caption}</figcaption></section>`;
+    });
+    while (ti < rest.length) body += textPanel(rest[ti++]);
     track.innerHTML = `
       <section class="pv__panel pv__cover">
         <div class="pv__cover-img"><img src="${p.image}" alt="${p.title}" data-px /></div>
         <div class="pv__cover-text">
-          <span class="pv__kicker">${p.kicker} · ${p.location}</span>
+          <span class="pv__kicker">${p.kicker}</span>
           <h2 class="pv__title" id="pvTitle">${p.title}</h2>
-          <p class="pv__sub">${p.year} · ${p.facts.Area || p.facts.Typology || ""}</p>
+          <p class="pv__sub">${[p.location, p.area, p.year].filter(Boolean).join(" · ")}</p>
         </div>
       </section>
       <section class="pv__panel pv__brief">
-        <div><h3 class="pv__statement">${p.statement}</h3></div>
-        <div><p class="pv__text">${p.text}</p><dl class="pv__facts">${facts}</dl></div>
+        <div><h3 class="pv__statement">${p.statement}</h3><dl class="pv__facts">${facts}</dl></div>
+        <div><p class="pv__text">${p.paras[0].t}</p></div>
       </section>
-      ${images}
+      ${body}
       <section class="pv__panel pv__materials">
         <h3>Material palette</h3>
         <ul>${p.materials.map(m => `<li>${m}</li>`).join("")}</ul>
       </section>
       <section class="pv__panel pv__next" data-next="${next.id}">
-        <div class="pv__next-img"><img src="${next.image}" alt="" /></div>
+        <div class="pv__next-img"><img src="${next.image}" alt="" loading="lazy" /></div>
         <div class="pv__next-text">
           <span class="pv__kicker">Next project</span>
           <span class="pv__next-title">${next.title}</span>
           <button class="btn pv__next-btn" data-cursor="Next"><span>Continue</span><i></i></button>
         </div>
       </section>`;
+    track.querySelectorAll("video").forEach(v => { v.preload = "metadata"; v.play().catch(() => {}); });
+    track.querySelectorAll("img").forEach(im => im.addEventListener("load", () => { measure(); }, { once: true }));
     panels = [...track.children];
     parallaxImgs = [...track.querySelectorAll("[data-px]")];
     track.querySelector(".pv__next").addEventListener("click", () => swap((idx + 1) % PROJECTS.length));

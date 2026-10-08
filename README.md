@@ -9,7 +9,8 @@ Bengaluru-based architecture & interiors, editorial typography, bronze/bone pale
 - **Hero** — a 360° panorama render you hold and drag to look around, with handwritten notes that
   blur in and out on elements in the room. No splash screen: the render shows straight away, with a
   hairline loading bar at the top while it loads. The name is set in light Cormorant Garamond.
-- **Selected work** — scrolling moves through six projects floating in a dark 3D space.
+- **Selected work** — Pregame, Lucifer's Lair, Lumen Residence, 27 Summit Maia, The Hatter's Paradox
+  and Black & White Office, from the studio archive. Scrolling moves through them in a dark 3D space.
   **Open project** turns the scroll horizontal: cover → statement & facts → gallery → materials → next.
 - **Studio** — founder portrait, story and stats. **Disciplines**, **Press**, **Contact**.
 - The journey is a loop: scrolling past Contact returns to the Hero, and scrolling up from the Hero
