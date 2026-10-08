@@ -168,16 +168,10 @@
       <!-- 06 Press -->
       <section class="panel panel--press" id="press" data-range="0.79,0.89">
         <span class="panel__tag">Featured in</span>
-        <ul class="press__list">
-          <li class="press__item"><span class="press__src">ELLE Decor India</span><a href="#" data-cursor="Read">Pregame? Inside Bengaluru’s retail store and bar by Atelier Astil</a></li>
-          <li class="press__item"><span class="press__src">Interior Design</span><a href="#" data-cursor="Read">Inside a cavernous hybrid concept store, restaurant and bar</a></li>
-          <li class="press__item"><span class="press__src">ArchDaily</span><a href="#" data-cursor="Read">Pregame Concept Store and Bar / Atelier Astil</a></li>
-          <li class="press__item"><span class="press__src">ELLE Decor India</span><a href="#" data-cursor="Read">A primary school lobby where aspirations take flight</a></li>
-          <li class="press__item"><span class="press__src">BW Businessworld</span><a href="#" data-cursor="Read">The inspiring story of architect Arpita Sharma’s atelier</a></li>
-        </ul>
+        <ul class="press__list" id="pressList"></ul>
         <div class="press__marquee" aria-hidden="true">
-          <div class="press__track"><span>ELLE Decor India</span><i></i><span>ArchDaily</span><i></i><span>Forbes</span><i></i><span>The Architects Diary</span><i></i><span>Interior Design</span><i></i><span>BW Businessworld</span><i></i></div>
-          <div class="press__track"><span>ELLE Decor India</span><i></i><span>ArchDaily</span><i></i><span>Forbes</span><i></i><span>The Architects Diary</span><i></i><span>Interior Design</span><i></i><span>BW Businessworld</span><i></i></div>
+          <div class="press__track"><span>ArchDaily</span><i></i><span>ELLE Decor India</span><i></i><span>The Architects Diary</span><i></i><span>Interior Design</span><i></i><span>ArchDaily</span><i></i><span>ELLE Decor India</span><i></i><span>The Architects Diary</span><i></i><span>Interior Design</span><i></i></div>
+          <div class="press__track"><span>ArchDaily</span><i></i><span>ELLE Decor India</span><i></i><span>The Architects Diary</span><i></i><span>Interior Design</span><i></i><span>ArchDaily</span><i></i><span>ELLE Decor India</span><i></i><span>The Architects Diary</span><i></i><span>Interior Design</span><i></i></div>
         </div>
       </section>
 
@@ -214,6 +208,19 @@
       </div>
       <div class="pv__progress"><i id="pvProgress"></i></div>
       <div class="pv__hint" id="pvHint"><span>Scroll or drag</span><i></i></div>
+    </div>
+
+    <!-- Press reader: an Apple-style window that shows the article under its real address -->
+    <div class="reader" id="reader" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="readerTitle">
+      <div class="reader__dim" id="readerDim"></div>
+      <div class="reader__win" id="readerWin">
+        <div class="reader__bar">
+          <div class="reader__lights"><button class="reader__light reader__light--close" id="readerClose" aria-label="Close"></button><i class="reader__light reader__light--min"></i><i class="reader__light reader__light--max"></i></div>
+          <div class="reader__addr"><svg viewBox="0 0 12 14" aria-hidden="true"><path d="M3 6V4a3 3 0 0 1 6 0v2h1v8H2V6h1Zm1.4 0h3.2V4a1.6 1.6 0 0 0-3.2 0v2Z" fill="currentColor"/></svg><span class="reader__host" id="readerHost"></span><span class="reader__path" id="readerPath"></span></div>
+          <a class="reader__open" id="readerOpen" href="#" target="_blank" rel="noopener">Open original <i></i></a>
+        </div>
+        <div class="reader__body" id="readerBody" data-lenis-prevent></div>
+      </div>
     </div>
 
     <script type="module" src="src/main.js"></script>

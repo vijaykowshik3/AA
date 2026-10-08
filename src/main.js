@@ -254,3 +254,62 @@ if (!isTouch && !reduced) {
 --------------------------------------------------------- */
 const tracks = $$(".press__track");
 lenis.on("scroll", ({ velocity }) => { const v = Math.min(Math.abs(velocity) / 40, 2.5); tracks.forEach(t => (t.style.animationDuration = `${30 / (1 + v)}s`)); });
+
+/* ---------------------------------------------------------
+   Press reader — an Apple-style window that grows out of the
+   clicked headline and shows the article under its real address
+--------------------------------------------------------- */
+import { PRESS } from "./press.js";
+{
+  const list = $("#pressList");
+  list.innerHTML = PRESS.map((p, i) => `<li class="press__item"><span class="press__src">${p.outlet}</span><button type="button" data-press="${i}" data-cursor="Read">${p.title}</button></li>`).join("");
+  const reader = $("#reader"), win = $("#readerWin"), dim = $("#readerDim"), body = $("#readerBody");
+  let openFrom = null, isOpen = false;
+
+  const fill = p => {
+    const u = new URL(p.url);
+    $("#readerHost").textContent = u.host.replace(/^www\./, "");
+    $("#readerPath").textContent = u.pathname;
+    $("#readerOpen").href = p.url;
+    if (p.mode === "live") {
+      body.innerHTML = `<div class="reader__spin"></div><iframe src="${p.url}" title="${p.outlet}: ${p.title}" referrerpolicy="no-referrer" loading="eager"></iframe>`;
+      body.querySelector("iframe").addEventListener("load", () => body.querySelector(".reader__spin")?.remove(), { once: true });
+    } else if (p.mode === "snapshot") {
+      body.innerHTML = `<img class="reader__snap" src="img/press/${p.id}.jpg" alt="${p.outlet}: ${p.title}" />`;
+    } else {
+      body.innerHTML = `<article class="rcard">
+        <div class="rcard__mast"><span class="rcard__outlet">${p.outlet}</span><span>${p.date}</span></div>
+        <h2 class="rcard__title" id="readerTitle">${p.title}</h2>
+        <p class="rcard__dek">${p.excerpt}</p>
+        <figure class="rcard__img"><img src="${p.image}" alt="" /></figure>
+        <div class="rcard__note"><span>Published by ${p.outlet}</span><a class="rcard__cta" href="${p.url}" target="_blank" rel="noopener">Read the full article on ${p.outlet} →</a></div>
+      </article>`;
+    }
+    body.scrollTop = 0;
+  };
+
+  function open(i, fromEl) {
+    fill(PRESS[i]); isOpen = true; openFrom = fromEl;
+    reader.classList.add("is-open"); reader.setAttribute("aria-hidden", "false");
+    lenis.stop();
+    const r = fromEl.getBoundingClientRect(), w = win.getBoundingClientRect();
+    const sx = r.width / w.width, sy = Math.max(r.height / w.height, 0.04);
+    gsap.set(win, { transformOrigin: "50% 50%" });
+    gsap.timeline()
+      .to(dim, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0)
+      .fromTo(win, { x: r.left + r.width / 2 - (w.left + w.width / 2), y: r.top + r.height / 2 - (w.top + w.height / 2), scaleX: sx, scaleY: sy, opacity: 0, borderRadius: 40 },
+        { x: 0, y: 0, scaleX: 1, scaleY: 1, opacity: 1, borderRadius: 18, duration: reduced ? 0 : 0.75, ease: "expo.out" }, 0);
+    $("#readerClose").focus({ preventScroll: true });
+  }
+  function close() {
+    if (!isOpen) return; isOpen = false;
+    const r = openFrom.getBoundingClientRect(), w = win.getBoundingClientRect();
+    gsap.timeline({ onComplete: () => { reader.classList.remove("is-open"); reader.setAttribute("aria-hidden", "true"); body.innerHTML = ""; gsap.set(win, { clearProps: "all" }); if (!menuOpen && !pv.isOpen()) lenis.start(); openFrom.focus({ preventScroll: true }); } })
+      .to(win, { x: r.left + r.width / 2 - (w.left + w.width / 2), y: r.top + r.height / 2 - (w.top + w.height / 2), scaleX: r.width / w.width, scaleY: Math.max(r.height / w.height, 0.04), opacity: 0, duration: reduced ? 0 : 0.5, ease: "power3.in" }, 0)
+      .to(dim, { opacity: 0, duration: 0.45 }, 0.05);
+  }
+  list.addEventListener("click", e => { const b = e.target.closest("[data-press]"); if (b) open(+b.dataset.press, b); });
+  $("#readerClose").addEventListener("click", close);
+  dim.addEventListener("click", close);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+}
