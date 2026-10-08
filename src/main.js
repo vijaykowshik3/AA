@@ -4,11 +4,13 @@ import { createScene } from "./scene.js";
 import { createProjectView } from "./project-view.js";
 import { PROJECTS } from "./projects.js";
 import { STATIONS } from "./evolution.js";
+import { createPano } from "./pano.js";
 
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+let pano = null;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isTouch = matchMedia("(hover: none), (pointer: coarse)").matches;
 const isMobile = () => innerWidth <= 860;
@@ -119,11 +121,11 @@ function update() {
     const fout = s.id === "contact" ? 1 - smooth(0.84, 0.97, tt) : 1 - smooth(0.86, 1, tt);
     const o = Math.min(fin, fout);
     let tr;
-    if (s.id === "hero") tr = `scale(${1 + tt * 0.35}) translateY(${tt * -6}vh)`;
+    if (s.id === "hero") tr = `scale(${1 + tt * 0.18})`;
     else if (s.id === "contact") tr = `translateY(${(1 - fin) * 48}px) scale(${1 - (1 - fout) * 0.08})`;
     else tr = `translateY(${(1 - fin) * 48 - (1 - fout) * 48}px) scale(${1 - (1 - fout) * 0.04})`;
     s.el.style.opacity = o; s.el.style.transform = tr;
-    if (s.id === "hero") s.el.style.filter = `blur(${tt * 8}px)`;
+    if (s.id === "hero") s.el.style.filter = `blur(${tt * 10}px)`;
     if (tt > 0.5 || !railActive) railActive = s.id;
 
     if (s.id === "evolution") {
@@ -153,6 +155,7 @@ function update() {
     }
   }
   if (!byId.work.active) world.setWork(null);
+  pano?.setActive(byId.hero.active);
   railBtns.forEach(b => b.classList.toggle("is-active", b.dataset.goto === railActive));
 }
 lenis.on("scroll", update);
@@ -166,6 +169,8 @@ $$("[data-goto]").forEach(el => el.addEventListener("click", e => {
   const p = s.id === "hero" ? 0 : s.id === "contact" ? 1 : s.id === "work" ? workProgressFor(0) : s.id === "evolution" ? s.a + (s.b - s.a) * (0.5 / STATIONS.length) : s.a + (s.b - s.a) * 0.45;
   goToProgress(p);
 }));
+
+pano = createPano($("#pano"), { src: "img/pano.webp", notesEl: $("#panoNotes"), reduced });
 
 /* ---------------------------------------------------------
    Project view
@@ -187,6 +192,7 @@ function runIntro() {
     .add(() => { booted = true; }, "+=1.5")
     .to($$(".hero__word"), { y: 0, duration: 1.4, stagger: 0.12 }, "-=0.6")
     .from([".hero__eyebrow", ".hero__bottom"], { opacity: 0, y: 20, duration: 1, stagger: 0.1 }, "-=1")
+    .to(pano.view, { intro: 1, duration: 2.6, ease: "power3.out" }, "-=1.6")
     .to("#header", { y: 0, opacity: 1, duration: 1 }, "-=0.9")
     .to("#rail", { opacity: 1, duration: 1 }, "-=0.8")
     .add(() => { if (location.hash.startsWith("#project-")) pv.open(location.hash.slice(9)); });

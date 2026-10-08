@@ -9,7 +9,7 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="src/styles.css" />
   </head>
   <body>
@@ -101,16 +101,25 @@
 
       <!-- 01 Hero -->
       <section class="panel panel--hero" id="hero" data-range="0,0.09">
-        <p class="hero__eyebrow"><span>Architecture &amp; Interiors</span><span>Bengaluru</span></p>
-        <h1 class="hero__title" aria-label="Atelier Astil">
-          <span class="hero__line"><span class="hero__word">Atelier</span></span>
-          <span class="hero__line hero__line--serif"><span class="hero__word">Astil</span></span>
-        </h1>
-        <div class="hero__bottom">
-          <p class="hero__intro">Every building begins with a tool in a hand.<br/>Scroll to travel from the first chisel to the machines that build with us today.</p>
-          <div class="hero__scroll">
-            <span class="hero__scroll-text">Scroll to descend</span>
-            <span class="hero__scroll-line"><i></i></span>
+        <div class="pano" id="pano">
+          <canvas aria-label="360 degree view of a residence interior by Atelier Astil. Hold and drag to look around."></canvas>
+          <div class="pano__notes" id="panoNotes" aria-hidden="true"></div>
+          <div class="pano__veil" aria-hidden="true"></div>
+        </div>
+        <div class="hero__top">
+          <p class="hero__eyebrow"><span>Architecture &amp; Interiors</span><span>Bengaluru</span></p>
+        </div>
+        <div class="hero__base">
+          <h1 class="hero__title" aria-label="Atelier Astil">
+            <span class="hero__line"><span class="hero__word">Atelier Astil</span></span>
+          </h1>
+          <div class="hero__bottom">
+            <p class="hero__intro">Spaces composed end to end — light, stone, timber and air.</p>
+            <div class="hero__drag"><span class="hero__drag-ring"><i></i></span><span>Hold &amp; drag to look around</span></div>
+            <div class="hero__scroll">
+              <span class="hero__scroll-text">Scroll to descend</span>
+              <span class="hero__scroll-line"><i></i></span>
+            </div>
           </div>
         </div>
       </section>
