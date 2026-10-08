@@ -66,7 +66,7 @@ $$("[data-split-words]").forEach(splitWords);
 /* ---------------------------------------------------------
    Hero WebGL
 --------------------------------------------------------- */
-const heroGL = initHeroGL($("#heroCanvas"), "/img/hero.jpg", { reduced });
+const heroGL = initHeroGL($("#heroCanvas"), "img/hero.jpg", { reduced });
 
 /* ---------------------------------------------------------
    Preloader → intro
