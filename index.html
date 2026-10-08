@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Atelier Astil — Architecture & Interiors, Bengaluru</title>
+    <meta name="description" content="Atelier Astil is a multidisciplinary architecture and interior design practice based in Bengaluru, crafting immersive hospitality, residential and workplace environments across Asia, Europe and the Middle East." />
+    <meta name="theme-color" content="#0b0b0c" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body data-theme="dark">
+    <!-- Preloader -->
+    <div class="preloader" id="preloader" aria-hidden="true">
+      <div class="preloader__inner">
+        <div class="preloader__word" aria-hidden="true">
+          <span>A</span><span>T</span><span>E</span><span>L</span><span>I</span><span>E</span><span>R</span>
+        </div>
+        <div class="preloader__meta">
+          <span class="preloader__label">Bengaluru · Dubai · London</span>
+          <span class="preloader__count" id="preloaderCount">00</span>
+        </div>
+      </div>
+      <div class="preloader__bar"><i id="preloaderBar"></i></div>
+    </div>
+
+    <!-- Custom cursor -->
+    <div class="cursor is-hidden" id="cursor" aria-hidden="true">
+      <div class="cursor__dot"></div>
+      <div class="cursor__ring"><span class="cursor__label"></span></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+      <a href="#top" class="header__logo" data-magnetic aria-label="Atelier Astil — home">
+        <svg class="header__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 3 3 29h5.6l2.4-5h10l2.4 5H29L16 3Zm-3 16.6L16 13l3 6.6h-6Z" fill="currentColor"/>
+        </svg>
+        <span class="header__wordmark">Atelier Astil</span>
+      </a>
+
+      <div class="header__center">
+        <span class="header__status"><i class="header__dot"></i> Studio open</span>
+        <span class="header__time"><span id="localTime">--:--</span> BLR</span>
+      </div>
+
+      <div class="header__right">
+        <a href="#contact" class="header__cta" data-magnetic>
+          <span>Start a project</span>
+        </a>
+        <button class="menu-btn" id="menuBtn" data-magnetic aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+          <span class="menu-btn__text"><span data-open>Menu</span><span data-close>Close</span></span>
+          <span class="menu-btn__lines"><i></i><i></i></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Fullscreen menu -->
+    <nav class="menu" id="menu" aria-hidden="true">
+      <div class="menu__bg"></div>
+      <div class="menu__inner">
+        <ul class="menu__list">
+          <li><a href="#work" class="menu__link" data-index="01"><span class="menu__word">Work</span></a></li>
+          <li><a href="#studio" class="menu__link" data-index="02"><span class="menu__word">Studio</span></a></li>
+          <li><a href="#disciplines" class="menu__link" data-index="03"><span class="menu__word">Disciplines</span></a></li>
+          <li><a href="#press" class="menu__link" data-index="04"><span class="menu__word">Press</span></a></li>
+          <li><a href="#contact" class="menu__link" data-index="05"><span class="menu__word">Contact</span></a></li>
+        </ul>
+        <div class="menu__aside">
+          <div class="menu__col">
+            <h4>Studio</h4>
+            <p>Bengaluru, India<br/>Working across Asia, Europe &amp; the Middle East</p>
+          </div>
+          <div class="menu__col">
+            <h4>Enquiries</h4>
+            <p><a href="mailto:projects@atelierastil.com" class="u-link">projects@atelierastil.com</a></p>
+          </div>
+          <div class="menu__col">
+            <h4>Social</h4>
+            <p>
+              <a href="https://www.instagram.com/atelierastil/" target="_blank" rel="noopener" class="u-link">Instagram</a><br/>
+              <a href="https://in.linkedin.com/company/atelier-astil" target="_blank" rel="noopener" class="u-link">LinkedIn</a><br/>
+              <a href="https://www.facebook.com/atelierastil/" target="_blank" rel="noopener" class="u-link">Facebook</a>
+            </p>
+          </div>
+        </div>
+        <div class="menu__image" aria-hidden="true">
+          <img src="/img/pregame.jpg" alt="" />
+        </div>
+      </div>
+    </nav>
+
+    <main id="top">
+      <!-- ================= HERO ================= -->
+      <section class="hero" id="hero">
+        <canvas class="hero__gl" id="heroCanvas" aria-hidden="true"></canvas>
+        <div class="hero__veil" aria-hidden="true"></div>
+
+        <div class="hero__content">
+          <p class="hero__eyebrow">
+            <span class="reveal-line"><span>Architecture &amp; Interiors</span></span>
+            <span class="reveal-line"><span>Est. Bengaluru</span></span>
+          </p>
+
+          <h1 class="hero__title" aria-label="Atelier Astil">
+            <span class="hero__line"><span class="hero__word">Atelier</span></span>
+            <span class="hero__line hero__line--serif"><span class="hero__word">Astil</span></span>
+          </h1>
+
+          <div class="hero__bottom">
+            <p class="hero__intro reveal-line">
+              <span>We shape spaces that people remember —<br/>sculpted, cinematic, built to be felt.</span>
+            </p>
+            <a href="#work" class="hero__scroll" data-cursor="Scroll">
+              <span class="hero__scroll-ring">
+                <svg viewBox="0 0 100 100" aria-hidden="true">
+                  <defs><path id="circlePath" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"/></defs>
+                  <text><textPath href="#circlePath">Scroll to explore · Scroll to explore · </textPath></text>
+                </svg>
+                <i class="hero__scroll-arrow"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero__corner hero__corner--bl">
+          <span>Selected works</span>
+          <span>2019 — 2026</span>
+        </div>
+        <div class="hero__corner hero__corner--br">
+          <span>Hospitality · Residential</span>
+          <span>Workplace · Education</span>
+        </div>
+      </section>
+
+      <!-- ================= MANIFESTO ================= -->
+      <section class="manifesto" id="manifesto">
+        <div class="manifesto__inner">
+          <p class="manifesto__text" data-split-words>
+            A multidisciplinary practice led by architect Arpita Sharma. For nearly a decade we have treated every brief as a world to build — balancing function and feeling, light and material, restraint and drama. Thirty-plus projects later, across three continents, the ambition is unchanged: make the rare thing.
+          </p>
+          <div class="manifesto__meta">
+            <span class="manifesto__tag">Our philosophy</span>
+            <a href="#studio" class="btn btn--ghost" data-magnetic><span>About the studio</span><i></i></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SELECTED WORK (pinned horizontal) ================= -->
+      <section class="work" id="work">
+        <div class="work__head">
+          <h2 class="section-title" data-split-chars>Selected<em> work</em></h2>
+          <p class="section-sub">Six environments, each with a point of view.<br/>Drag, scroll or wheel to move through.</p>
+        </div>
+
+        <div class="work__pin" id="workPin">
+          <div class="work__track" id="workTrack">
+            <article class="work__card" data-cursor="View">
+              <a href="#project-pregame" class="work__media" data-project="pregame">
+                <img src="/img/pregame.jpg" alt="Pregame concept store and bar — sculpted, cave-like interior" loading="lazy" />
+              </a>
+              <div class="work__info">
+                <span class="work__idx">01</span>
+                <h3 class="work__title">Pregame</h3>
+                <p class="work__meta">Concept Store &amp; Bar · Bengaluru · 10,000 sq ft · 2025</p>
+              </div>
+            </article>
+
+            <article class="work__card work__card--tall" data-cursor="View">
+              <a href="#project-lucifers-lair" class="work__media" data-project="lucifers-lair">
+                <img src="/img/lucifers-lair.jpg" alt="Lucifer's Lair — underworld-inspired restobar with dark rippling marble" loading="lazy" />
+              </a>
+              <div class="work__info">
+                <span class="work__idx">02</span>
+                <h3 class="work__title">Lucifer’s Lair</h3>
+                <p class="work__meta">Restobar · Bengaluru · ELLE Decor India</p>
+              </div>
+            </article>
+
+            <article class="work__card" data-cursor="View">
+              <a href="#project-knossos" class="work__media" data-project="knossos">
+                <img src="/img/knossos.jpg" alt="Project Knossos — 2,300 square metre residence in Dubai" loading="lazy" />
+              </a>
+              <div class="work__info">
+                <span class="work__idx">03</span>
+                <h3 class="work__title">Knossos</h3>
+                <p class="work__meta">Private Residence · Dubai · 2,300 m²</p>
+              </div>
+            </article>
+
+            <article class="work__card work__card--wide" data-cursor="View">
+              <a href="#project-school-lobby" class="work__media" data-project="school-lobby">
+                <img src="/img/school-lobby.jpg" alt="Primary school lobby where aspirations take flight" loading="lazy" />
+              </a>
+              <div class="work__info">
+                <span class="work__idx">04</span>
+                <h3 class="work__title">Take Flight</h3>
+                <p class="work__meta">Primary School Lobby · Education · ELLE Decor India</p>
+              </div>
+            </article>
+
+            <article class="work__card work__card--tall" data-cursor="View">
+              <a href="#project-tech-park" class="work__media" data-project="tech-park">
+                <img src="/img/tech-park.jpg" alt="Tech park workplace with open floor plans and natural light" loading="lazy" />
+              </a>
+              <div class="work__info">
+                <span class="work__idx">05</span>
+                <h3 class="work__title">Tech Park</h3>
+                <p class="work__meta">Workplace · Open plan · Daylight-led</p>
+              </div>
+            </article>
+
+            <article class="work__card" data-cursor="View">
+              <a href="#project-residence" class="work__media" data-project="residence">
+                <img src="/img/residence.jpg" alt="Ultra-luxury private residence" loading="lazy" />
+              </a>
+              <div class="work__info">
+                <span class="work__idx">06</span>
+                <h3 class="work__title">Private Residence</h3>
+                <p class="work__meta">Ultra-luxury · Residential · Confidential</p>
+              </div>
+            </article>
+
+            <div class="work__end">
+              <a href="#contact" class="work__end-link" data-magnetic data-cursor="Go">
+                <span>All<br/>projects</span>
+                <i></i>
+              </a>
+            </div>
+          </div>
+          <div class="work__progress" aria-hidden="true"><i id="workProgress"></i></div>
+        </div>
+      </section>
+
+      <!-- ================= FEATURE (Pregame) ================= -->
+      <section class="feature" id="feature">
+        <div class="feature__media" data-parallax="0.18">
+          <img src="/img/pregame.jpg" alt="" aria-hidden="true" />
+        </div>
+        <div class="feature__content">
+          <span class="feature__eyebrow reveal-line"><span>Featured · ArchDaily · The Architects Diary</span></span>
+          <h2 class="feature__title">
+            <span class="reveal-line"><span>Carved, not built.</span></span>
+            <span class="reveal-line"><span><em>Pregame</em>, Bengaluru</span></span>
+          </h2>
+          <p class="feature__text reveal-line"><span>Drawing from subterranean architecture, Egyptian cave formations and excavation logics, a retail store and bar synchronised into one maze-like spatial narrative across two levels.</span></p>
+          <a href="#project-pregame" class="btn" data-magnetic data-project="pregame"><span>Open the project</span><i></i></a>
+        </div>
+      </section>
+
+      <!-- ================= DISCIPLINES ================= -->
+      <section class="disc" id="disciplines">
+        <div class="disc__head">
+          <h2 class="section-title" data-split-chars>What we<em> do</em></h2>
+          <p class="section-sub">One studio, end to end — from first sketch to the last fitting.</p>
+        </div>
+
+        <ul class="disc__list" id="discList">
+          <li class="disc__row" data-img="/img/residence.jpg">
+            <span class="disc__idx">01</span>
+            <h3 class="disc__name">Architecture</h3>
+            <p class="disc__desc">Residences, high-rises, schools and tech parks — grounded, climate-aware, precise.</p>
+            <span class="disc__arrow" aria-hidden="true"></span>
+          </li>
+          <li class="disc__row" data-img="/img/knossos.jpg">
+            <span class="disc__idx">02</span>
+            <h3 class="disc__name">Interiors</h3>
+            <p class="disc__desc">Ultra-luxury living shaped around the people who inhabit it.</p>
+            <span class="disc__arrow" aria-hidden="true"></span>
+          </li>
+          <li class="disc__row" data-img="/img/lucifers-lair.jpg">
+            <span class="disc__idx">03</span>
+            <h3 class="disc__name">Hospitality</h3>
+            <p class="disc__desc">Bars, restaurants and concept stores with cinematic material palettes.</p>
+            <span class="disc__arrow" aria-hidden="true"></span>
+          </li>
+          <li class="disc__row" data-img="/img/tech-park.jpg">
+            <span class="disc__idx">04</span>
+            <h3 class="disc__name">Workplace</h3>
+            <p class="disc__desc">Open floor plans, natural light and technology woven into the plan.</p>
+            <span class="disc__arrow" aria-hidden="true"></span>
+          </li>
+          <li class="disc__row" data-img="/img/studio.jpg">
+            <span class="disc__idx">05</span>
+            <h3 class="disc__name">Objects &amp; Art</h3>
+            <p class="disc__desc">Furniture, lighting and installations — the details that finish a space.</p>
+            <span class="disc__arrow" aria-hidden="true"></span>
+          </li>
+        </ul>
+        <div class="disc__float" id="discFloat" aria-hidden="true"><img src="" alt="" /></div>
+      </section>
+
+      <!-- ================= STUDIO ================= -->
+      <section class="studio" id="studio">
+        <div class="studio__grid">
+          <div class="studio__media">
+            <div class="studio__frame" data-parallax="0.1">
+              <img src="/img/studio.jpg" alt="Atelier Astil studio, Bengaluru" loading="lazy" />
+            </div>
+            <span class="studio__caption">Arpita Sharma — Founder &amp; Principal Architect</span>
+          </div>
+          <div class="studio__copy">
+            <h2 class="section-title" data-split-chars>The<em> studio</em></h2>
+            <p class="studio__lead reveal-line"><span>Founded by Arpita Sharma at twenty-two, Atelier Astil has grown into a practice trusted with some of the most demanding briefs in the region — and the most personal ones.</span></p>
+            <p class="studio__text reveal-line"><span>We take a holistic approach to every space: function and aesthetics in balance, sustainability as a given, and a design language that is unmistakably ours yet always the client’s. From ultra-luxury residences for private clients to tech parks, schools and commercial environments, each project is a chance to build something rare.</span></p>
+
+            <ul class="stats">
+              <li class="stat"><span class="stat__num" data-count="30" data-suffix="+">0</span><span class="stat__label">Projects worldwide</span></li>
+              <li class="stat"><span class="stat__num" data-count="3">0</span><span class="stat__label">Continents</span></li>
+              <li class="stat"><span class="stat__num" data-count="10" data-suffix="k">0</span><span class="stat__label">sq ft, largest hospitality build</span></li>
+            </ul>
+
+            <div class="studio__links">
+              <a href="#contact" class="btn" data-magnetic><span>Work with us</span><i></i></a>
+              <a href="#contact" class="btn btn--ghost" data-magnetic><span>Join the team</span><i></i></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PRESS ================= -->
+      <section class="press" id="press">
+        <div class="press__marquee" aria-label="Featured in">
+          <div class="press__track">
+            <span>ELLE Decor India</span><i></i>
+            <span>ArchDaily</span><i></i>
+            <span>Forbes</span><i></i>
+            <span>The Architects Diary</span><i></i>
+            <span>Interior Design</span><i></i>
+            <span>BW Businessworld</span><i></i>
+          </div>
+          <div class="press__track" aria-hidden="true">
+            <span>ELLE Decor India</span><i></i>
+            <span>ArchDaily</span><i></i>
+            <span>Forbes</span><i></i>
+            <span>The Architects Diary</span><i></i>
+            <span>Interior Design</span><i></i>
+            <span>BW Businessworld</span><i></i>
+          </div>
+        </div>
+
+        <div class="press__grid">
+          <a class="press__item" href="#" data-cursor="Read">
+            <span class="press__src">ELLE Decor India</span>
+            <h3>Pregame? Inside Bengaluru’s retail store and bar by Atelier Astil</h3>
+            <span class="press__arrow" aria-hidden="true"></span>
+          </a>
+          <a class="press__item" href="#" data-cursor="Read">
+            <span class="press__src">Interior Design</span>
+            <h3>Inside a cavernous hybrid concept store, restaurant and bar</h3>
+            <span class="press__arrow" aria-hidden="true"></span>
+          </a>
+          <a class="press__item" href="#" data-cursor="Read">
+            <span class="press__src">ELLE Decor India</span>
+            <h3>A primary school lobby where aspirations take flight</h3>
+            <span class="press__arrow" aria-hidden="true"></span>
+          </a>
+          <a class="press__item" href="#" data-cursor="Read">
+            <span class="press__src">BW Businessworld</span>
+            <h3>The inspiring story of architect Arpita Sharma’s atelier</h3>
+            <span class="press__arrow" aria-hidden="true"></span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ================= CONTACT ================= -->
+      <section class="contact" id="contact">
+        <div class="contact__inner">
+          <span class="contact__eyebrow reveal-line"><span>Next</span></span>
+          <h2 class="contact__title">
+            <span class="reveal-line"><span>Let’s build</span></span>
+            <span class="reveal-line"><span>something <em>rare.</em></span></span>
+          </h2>
+          <a href="mailto:projects@atelierastil.com" class="contact__mail" data-magnetic data-cursor="Write">
+            <span class="contact__mail-text">projects@atelierastil.com</span>
+            <span class="contact__mail-arrow" aria-hidden="true"></span>
+          </a>
+          <div class="contact__cols">
+            <div>
+              <h4>Studio</h4>
+              <p>Bengaluru, Karnataka<br/>India</p>
+            </div>
+            <div>
+              <h4>Hours</h4>
+              <p>Mon — Fri<br/>10:00 — 19:00 IST</p>
+            </div>
+            <div>
+              <h4>Follow</h4>
+              <p>
+                <a href="https://www.instagram.com/atelierastil/" target="_blank" rel="noopener" class="u-link">Instagram</a><br/>
+                <a href="https://in.linkedin.com/company/atelier-astil" target="_blank" rel="noopener" class="u-link">LinkedIn</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__big" aria-hidden="true">
+        <span class="footer__big-word">Atelier</span>
+        <span class="footer__big-word footer__big-word--serif">Astil</span>
+      </div>
+      <div class="footer__row">
+        <span>© <span id="year">2026</span> Atelier Astil. All rights reserved.</span>
+        <nav class="footer__nav">
+          <a href="#work">Work</a>
+          <a href="#studio">Studio</a>
+          <a href="#disciplines">Disciplines</a>
+          <a href="#press">Press</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <button class="footer__top" id="toTop" data-magnetic>Back to top <i></i></button>
+      </div>
+    </footer>
+
+    <!-- Project overlay (lightweight detail view) -->
+    <div class="project" id="project" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="projectTitle">
+      <div class="project__bg"></div>
+      <button class="project__close" id="projectClose" data-magnetic aria-label="Close project">Close <i></i></button>
+      <div class="project__scroller">
+        <div class="project__hero">
+          <img id="projectImg" src="" alt="" />
+        </div>
+        <div class="project__body">
+          <div class="project__head">
+            <span class="project__eyebrow" id="projectEyebrow"></span>
+            <h2 class="project__title" id="projectTitle"></h2>
+          </div>
+          <dl class="project__facts" id="projectFacts"></dl>
+          <p class="project__text" id="projectText"></p>
+          <div class="project__nav">
+            <button class="btn btn--ghost" id="projectPrev"><i class="flip"></i><span>Previous</span></button>
+            <button class="btn btn--ghost" id="projectNext"><span>Next project</span><i></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
